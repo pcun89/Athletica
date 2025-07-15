@@ -1,0 +1,38 @@
+import os
+
+def createDirectory(path):
+    """Creates a new directory if it doesn't exist."""
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"Directory '{path}' created.")
+    else:
+        print(f"Directory '{path}' already exists.")
+
+def createFile(filePath, content=""):
+    """Creates a new file with optional content."""
+    with open(filePath, 'w') as file:
+        file.write(content)
+    print(f"File '{filePath}' created with initial content.")
+
+def appendToFile(filePath, content):
+    """Appends content to an existing file."""
+    with open(filePath, 'a') as file:
+        file.write(content)
+    print(f"Appended content to '{filePath}'.")
+
+def readFile(filePath):
+    """Reads and prints the content of a file."""
+    if os.path.exists(filePath):
+        with open(filePath, 'r') as file:
+            print(f"Contents of '{filePath}':\n{file.read()}")
+    else:
+        print(f"File '{filePath}' does not exist.")
+
+def listDirectory(path):
+    """Lists all files and folders in a directory."""
+    if os.path.exists(path):
+        print(f"Contents of '{path}':")
+        for item in os.listdir(path):
+            print(" -", item)
+    else:
+        print(f"Directory '{path}' does not exist.")
