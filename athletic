@@ -36,3 +36,19 @@ def listDirectory(path):
             print(" -", item)
     else:
         print(f"Directory '{path}' does not exist.")
+
+
+def main():
+    basePath = "artusi_project"
+
+    createDirectory(basePath)
+    createFile(os.path.join(basePath, "notes.txt"),
+               "This is the Artusi project.\n")
+    appendToFile(os.path.join(basePath, "notes.txt"),
+                 "Practicing file editing with Python.\n")
+    readFile(os.path.join(basePath, "notes.txt"))
+    listDirectory(basePath)
+
+
+if __name__ == "__main__":
+    main()
