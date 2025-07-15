@@ -1,0 +1,51 @@
+import unittest
+import tempfile
+import os
+from main import createDirectory, createFile, appendToFile, readFile, listDirectory
+
+class TestArtusiProject(unittest.TestCase):
+    def setUp(self):
+        # Create a temporary directory for testing
+        self.testDir = tempfile.TemporaryDirectory()
+        self.dirPath = os.path.join(self.testDir.name, "artusi_test")
+        self.filePath = os.path.join(self.dirPath, "test.txt")
+        createDirectory(self.dirPath)
+
+    def tearDown(self):
+        # Clean up the temporary directory
+        self.testDir.cleanup()
+
+    def test_createDirectory(self):
+        self.assertTrue(os.path.exists(self.dirPath))
+
+    def test_createFile(self):
+        content = "Hello, Artusi!\n"
+        createFile(self.filePath, content)
+        self.assertTrue(os.path.exists(self.filePath))
+        with open(self.filePath, 'r') as f:
+            self.assertEqual(f.read(), content)
+
+    def test_appendToFile(self):
+        createFile(self.filePath, "Start\n")
+        appendToFile(self.filePath, "End\n")
+        with open(self.filePath, 'r') as f:
+            lines = f.readlines()
+        self.assertEqual(lines, ["Start\n", "End\n"])
+
+    def test_readFile(self):
+        createFile(self.filePath, "Sample Content\n")
+        # No assertion needed; just check that the function runs without error
+        try:
+            readFile(self.filePath)
+        except Exception as e:
+            self.fail(f"readFile() raised an exception: {e}")
+
+    def test_listDirectory(self):
+        createFile(self.filePath, "File for listing test")
+        try:
+            listDirectory(self.dirPath)
+        except Exception as e:
+            self.fail(f"listDirectory() raised an exception: {e}")
+
+if __name__ == '__main__':
+    unittest.main()
